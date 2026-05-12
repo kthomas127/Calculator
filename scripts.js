@@ -8,7 +8,9 @@ function clearDisplay(){
 }
 
 function backspace(){
-  display.value = display.value.slice(0, -1)
+  console.log(typeof(display.value));
+  if (isNaN(display.value)) display.value = "";
+  else display.value = display.value.slice(0, -1);
 }
 
 function calculate(){
@@ -27,6 +29,7 @@ function calculate(){
         else if (operation === '-') a = (subtract(a, b));
         else if (operation === 'x') a = (multiply(a, b));
         else if (operation === '/') a = (divide(a, b));
+        else if (operation === '%') a = (modulo(a, b));
         }
       operation = x;
       total = '';
@@ -37,6 +40,7 @@ function calculate(){
     else if (operation === '-') display.value = (subtract(a, b));
     else if (operation === 'x') display.value = (multiply(a, b));
     else if (operation === '/') display.value = (divide(a, b));
+    else if (operation === '%') display.value = (modulo(a, b));
   }
   catch(error){
     display.value = "Error";
@@ -57,5 +61,9 @@ const multiply = function(a, b) {
 
 const divide = function(a, b) {
 	return a / b;
+};
+
+const modulo = function(a, b) {
+	return a % b;
 };
 
