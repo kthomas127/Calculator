@@ -32,26 +32,15 @@ function calculate(){
       if ((!isNaN(x) && x !== ' ' && x !== ',') || x === '.'){
         total += x;
       } else if (x !== ' '){
-        if (a === null){
-          a = parseFloat(total);
-        } else {
           const b = parseFloat(total);
-          if (operation === '+') a = (add(a, b));
-        else if (operation === '-') a = (subtract(a, b));
-        else if (operation === 'x') a = (multiply(a, b));
-        else if (operation === '/') a = (divide(a, b));
-        else if (operation === '%') a = (modulo(a, b));
-        }
-      operation = x;
-      total = '';
+          a = a === null ? b : applyOperation(a, b, operation);
+          operation = x;
+          total = '';
       }
     }
     const b = parseFloat(total);
-    if (operation === '+') display.value = (add(a, b));
-    else if (operation === '-') display.value = (subtract(a, b));
-    else if (operation === 'x') display.value = (multiply(a, b));
-    else if (operation === '/') display.value = (divide(a, b));
-    else if (operation === '%') display.value = (modulo(a, b));
+    const result = operation === null ? b : applyOperation(a, b, operation);
+    display.value = result;
   }
   catch(error){
     display.value = "Error";
@@ -60,6 +49,14 @@ function calculate(){
     equation.textContent = prevDisplay;
     previous.appendChild(equation);
   }
+}
+
+function applyOperation(a, b, operation) {
+  if (operation === '+') return add(a, b);
+  if (operation === '-') return subtract(a, b);
+  if (operation === 'x') return multiply(a, b);
+  if (operation === '/') return divide(a, b);
+  if (operation === '%') return modulo(a, b);
 }
 
 const add = function(a, b) {
