@@ -61,13 +61,15 @@ function applyOperation(a, b, operation) {
 
 function toggleSign() {
   const unformatted = display.value.replace(/,/g, "");
-  const match = raw.match(/([-]?\d+\.?\d*)$/);
+  const match = unformatted.match(/\((-\d+\.?\d*)\)$|([-]?\d+\.?\d*)$/);
   if (!match) return;
 
-  const lastNum = match[0];
-  const toggled = lastNum.startsWith('-') ? lastNum.slice(1) : '(-' + lastNum + ')';
-
-  const formatted = unformatted.slice(0, match.index) + toggled;
+  let toggled;
+  if (match[1] !== undefined) toggled = match[1].slice(1);
+  else toggled = '(-' + match[2] + ')';
+  
+  const matchIndex = unformatted.lastIndexOf(match[0]);
+  const formatted = unformatted.slice(0, matchIndex) + toggled;
   display.value = formatted.replace(/(\d+\.?\d*)/g, (num) => {
     if (num.endsWith('.')) return num;
     return parseFloat(num).toLocaleString();
