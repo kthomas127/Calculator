@@ -4,7 +4,12 @@ const equation = document.createElement("p");
 const errors = ["NaN", "Infinity", "-Infinity"];
 
 function addToDisplay(input){
-  display.value += input;
+  const raw = display.value.replace(/,/g, "") + input;
+  display.value = raw.replace(/(\d+\.?\d*)/g, (num) => {
+    if (num.endsWith('.')) return num;
+    return parseFloat(num).toLocaleString()
+  }
+);
 }
 
 function clearDisplay(){
@@ -23,7 +28,8 @@ function calculate(){
     let total = '';
     let a = null, operation = null;
     for (const x of display.value) {
-      if (!isNaN(x) && x !== ' '){
+      if (x === ',') continue;
+      if ((!isNaN(x) && x !== ' ' && x !== ',') || x === '.'){
         total += x;
       } else if (x !== ' '){
         if (a === null){
