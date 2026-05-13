@@ -40,7 +40,7 @@ function calculate(){
     }
     const b = parseFloat(total);
     const result = operation === null ? b : applyOperation(a, b, operation);
-    display.value = result;
+    display.value = result.toLocaleString();
   }
   catch(error){
     display.value = "Error";
