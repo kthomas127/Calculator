@@ -1,6 +1,7 @@
 const display = document.getElementById("display");
 const previous = document.getElementById("previous");
 const equation = document.createElement("p");
+const errors = ["NaN", "Infinity", "-Infinity"];
 
 function addToDisplay(input){
   display.value += input;
@@ -8,10 +9,11 @@ function addToDisplay(input){
 
 function clearDisplay(){
   display.value = "";
+  equation.remove();
 }
 
 function backspace(){
-  if (isNaN(display.value)) display.value = "";
+  if (errors.includes(display.value)) display.value = "";
   else display.value = display.value.slice(0, -1);
 }
 
