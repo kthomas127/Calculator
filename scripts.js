@@ -1,4 +1,7 @@
 const display = document.getElementById("display");
+const previous = document.getElementById("previous");
+const equation = document.createElement("p");
+
 function addToDisplay(input){
   display.value += input;
 }
@@ -8,12 +11,12 @@ function clearDisplay(){
 }
 
 function backspace(){
-  console.log(typeof(display.value));
   if (isNaN(display.value)) display.value = "";
   else display.value = display.value.slice(0, -1);
 }
 
 function calculate(){
+  const prevDisplay = display.value;
   try{
     let total = '';
     let a = null, operation = null;
@@ -45,6 +48,10 @@ function calculate(){
   catch(error){
     display.value = "Error";
   }
+  console.log(prevDisplay);
+  equation.textContent = prevDisplay;
+  previous.appendChild(equation);
+
 }
 
 const add = function(a, b) {
