@@ -4,10 +4,12 @@ const equation = document.createElement("p");
 const errors = ["NaN", "Infinity", "-Infinity"];
 
 function addToDisplay(input){
+  // Strip existing commas from display value
   const raw = display.value.replace(/,/g, "") + input;
+  // Only find numbers e.g: 1000 + 5000 will be 1000 and 5000 separately
   display.value = raw.replace(/(\d+\.?\d*)/g, (num) => {
     if (num.endsWith('.')) return num;
-    return parseFloat(num).toLocaleString()
+    return parseFloat(num).toLocaleString() // 1000 -> 1,000
   }
 );
 }
@@ -60,7 +62,9 @@ function applyOperation(a, b, operation) {
 }
 
 function toggleSign() {
+  // Remove commas
   const unformatted = display.value.replace(/,/g, "");
+  // Match either "(-2)" or "2" at the end of the string
   const match = unformatted.match(/\((-\d+\.?\d*)\)$|([-]?\d+\.?\d*)$/);
   if (!match) return;
 
@@ -70,6 +74,7 @@ function toggleSign() {
   
   const matchIndex = unformatted.lastIndexOf(match[0]);
   const formatted = unformatted.slice(0, matchIndex) + toggled;
+  // Reformat the display with commas and decimals
   display.value = formatted.replace(/(\d+\.?\d*)/g, (num) => {
     if (num.endsWith('.')) return num;
     return parseFloat(num).toLocaleString();
