@@ -27,11 +27,15 @@ function backspace(){
 function calculate(){
   const prevDisplay = display.value;
   try{
+    // Unwrap (-3) into -3 before parsing
+    const normalized = display.value
+      .replace(/,/g, "")
+      .replace(/\((-[\d.]+)\)/g, "$1");
+
     let total = '';
     let a = null, operation = null;
-    for (const x of display.value) {
-      if (x === ',' || x === '(' || x === ')') continue;
-      if ((!isNaN(x) && x !== ' ' && x !== ',') || x === '.'){
+    for (const x of normalized) {
+      if ((!isNaN(x) && x !== ' ') || x === '.' || (x === '-' && total === '' && a !== null)){
         total += x;
       } else if (x !== ' '){
           const b = parseFloat(total);
