@@ -28,7 +28,7 @@ function calculate(){
     let total = '';
     let a = null, operation = null;
     for (const x of display.value) {
-      if (x === ',') continue;
+      if (x === ',' || x === '(' || x === ')') continue;
       if ((!isNaN(x) && x !== ' ' && x !== ',') || x === '.'){
         total += x;
       } else if (x !== ' '){
@@ -52,30 +52,24 @@ function calculate(){
 }
 
 function applyOperation(a, b, operation) {
-  if (operation === '+') return add(a, b);
-  if (operation === '-') return subtract(a, b);
-  if (operation === 'x') return multiply(a, b);
-  if (operation === '/') return divide(a, b);
-  if (operation === '%') return modulo(a, b);
+  if (operation === '+') return (a + b);
+  if (operation === '-') return (a - b);
+  if (operation === 'x') return (a * b);
+  if (operation === '/') return (a / b);
+  if (operation === '%') return (a % b);
 }
 
-const add = function(a, b) {
-	return a + b;
-};
+function toggleSign() {
+  const unformatted = display.value.replace(/,/g, "");
+  const match = raw.match(/([-]?\d+\.?\d*)$/);
+  if (!match) return;
 
-const subtract = function(a, b) {
-	return a - b;
-};
+  const lastNum = match[0];
+  const toggled = lastNum.startsWith('-') ? lastNum.slice(1) : '(-' + lastNum + ')';
 
-const multiply = function(a, b) {
-	return a * b;
-};
-
-const divide = function(a, b) {
-	return a / b;
-};
-
-const modulo = function(a, b) {
-	return a % b;
-};
-
+  const formatted = unformatted.slice(0, match.index) + toggled;
+  display.value = formatted.replace(/(\d+\.?\d*)/g, (num) => {
+    if (num.endsWith('.')) return num;
+    return parseFloat(num).toLocaleString();
+  });
+}
