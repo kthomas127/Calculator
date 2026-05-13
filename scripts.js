@@ -50,10 +50,10 @@ function calculate(){
   catch(error){
     display.value = "Error";
   }
-  console.log(prevDisplay);
-  equation.textContent = prevDisplay;
-  previous.appendChild(equation);
-
+  if (!errors.includes(display.value)) {
+    equation.textContent = prevDisplay;
+    previous.appendChild(equation);
+  }
 }
 
 const add = function(a, b) {
